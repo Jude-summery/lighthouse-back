@@ -1,2 +1,1 @@
-# lighthouse-back
-the back-end of lighthouse
+# the back-end of lighthouse
