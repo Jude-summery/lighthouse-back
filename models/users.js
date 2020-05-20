@@ -14,7 +14,10 @@ module.exports = {
 
     findOne: function findOne (id) {
         return User.findOne({
-            where: { id: +id }
+            where: { id: +id },
+            attributes: {
+                excludeL: ['password']
+            }
         })
     }
 };
