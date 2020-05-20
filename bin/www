@@ -2,6 +2,7 @@
 
 /**
  * Module dependencies.
+ * debug模块可以通过配置控制是否在控制台输出内容，相较于console.log免去了手动注释的麻烦
  */
 
 var app = require('../app');
@@ -10,6 +11,8 @@ var http = require('http');
 
 /**
  * Get port from environment and store in Express.
+ * process是Node提供的全局变量
+ * process.env返回项目运行所在环境（系统）的一些信息
  */
 
 var port = normalizePort(process.env.PORT || '3000');
@@ -86,6 +89,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Listening on ' + bind)
   debug('Listening on ' + bind);
 }
