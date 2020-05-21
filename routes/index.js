@@ -8,4 +8,5 @@ module.exports = function (app) {
   app.use('/api/users', require('./users'))
   app.use('/api/groups', require('./groups'))
   app.use('/api/tasks', require('./tasks'))
+  app.use('/api/events', require('./events'))
 }

@@ -12,11 +12,35 @@ module.exports = {
         })
     },
 
-    findOne: function findOne (id) {
+    findOneById: function findOneById (id) {
         return User.findOne({
-            where: { id: +id },
+            where: { id: id },
             attributes: {
-                excludeL: ['password']
+                exclude: ['password']
+            }
+        })
+    },
+
+    findAllByGroupId: function findAllByGroupId (groupId) {
+        return User.findAll({
+            where: { groupId: groupId },
+            attributes: {
+                exclude: ['password']
+            }
+        })
+    },
+
+    updateOneById: function updateOneById (id, params) {
+        return User.update(params, {
+            where: { id: id }
+        })
+    },
+
+    deleteOneGroupMemeberById: function deleteOneGroupMemeberById(userId, groupId) {
+        return User.update({groupId: null}, {
+            where: {
+                id: userId,
+                groupId: groupId
             }
         })
     }
