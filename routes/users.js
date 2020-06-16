@@ -5,66 +5,68 @@ const UserModel = require('../models/users');
 const gerResponse = require('../util/getResponse');
 
 /** 用户注册 */
-router.get('/signup', function(req, res, next) {
-  UserModel.create().then(()=>{
+router.post('/signup', function (req, res, next) {
+  UserModel.create().then(() => {
     res.send(gerResponse('创建成功'));
   }).catch(e => next(e))
 });
 
 /** 获取用户基本信息 */
-router.get('/', function(req, res, next) {
-  const {id} = req.query;
-  if(isNaN(id)) {res.send(gerResponse(null ,403, false, '参数有误')); return};
+router.get('/info/:id', function (req, res, next) {
+  const { id } = req.params;
+  if (isNaN(id)) { res.send(gerResponse(null, 403, false, '参数有误')); return };
   UserModel.findOneById(id).then(body => {
-    if(body){
+    if (body) {
       res.send(gerResponse(body));
       return;
     };
-    res.send(gerResponse(null ,404, false, '数据不存在'));
+    res.send(gerResponse(null, 404, false, '数据不存在'));
   }).catch(e => next(e))
 });
 
 /** 更新用户基本信息 */
-router.put('/', function(req, res, next) {
-  const { userId, ...restParams } = req.body;
-  UserModel.updateOneById(userId, restParams).then(body => {
-    if(body){
+router.put('/info/:id', function (req, res, next) {
+  const { id } = req.params;
+  UserModel.updateOneById(id, req.body).then(body => {
+    if (body) {
       res.send(gerResponse());
       return;
     };
-    res.send(gerResponse(null ,404, false, '数据更新失败'));
+    res.send(gerResponse(null, 404, false, '数据更新失败'));
   }).catch(e => next(e))
 });
 
 /** 获取用户组成员列表 */
-router.get('/groups', function(req, res, next) {
-  const {groupId} = req.query;
+router.get('/groups/:groupId', function (req, res, next) {
+  const { groupId } = req.params;
   UserModel.findAllByGroupId(groupId).then(body => {
-    if(body){
-      res.send(gerResponse({results: body}));
+    if (body) {
+      res.send(gerResponse({ results: body }));
       return;
     };
-    res.send(gerResponse(null ,404, false, '数据不存在'));
+    res.send(gerResponse(null, 404, false, '数据不存在'));
   }).catch(e => next(e))
 });
 
 /** 新增用户组成员 */
-router.post('/groups', function(req, res, next) {
-  const {groupId, userId} = req.body;
-  UserModel.updateOneById(userId, {groupId}).then(body => {
-    if(body){
+router.put('/groups/:groupId', function (req, res, next) {
+  const { groupId } = req.params;
+  const { userId } = req.body;
+  UserModel.updateOneById(userId, { groupId }).then(body => {
+    if (body) {
       res.send(gerResponse());
       return;
     };
-    res.send(gerResponse(null ,404, false, '数据更新失败'));
+    res.send(gerResponse(null, 404, false, '数据更新失败'));
   }).catch(e => next(e))
 })
 
 /** 删除用户组成员 */
-router.delete('/groups', function(req, res, next) {
-  const { groupId, userId } = req.query;
+router.delete('/groups/:groupId', function (req, res, next) {
+  const { groupId } = req.params;
+  const { userId } = req.query;
   UserModel.deleteOneGroupMemeberById(userId, groupId).then(body => {
-    if(body){
+    if (body) {
       res.send(gerResponse());
       return;
     };
