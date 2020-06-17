@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "set PORT=3000 && set DEBUG=lighthouse-back:server && supervisor ./bin/www",
-    "start:new-env": "set PORT=3000 && set DEBUG=lighthouse-back:server && set IS_NEW=true && supervisor ./bin/www"
+    "start:new-env": "set PORT=3000 && set DEBUG=lighthouse-back:server && set IS_NEW=true && supervisor ./bin/www",
+    "start:update": "set PORT=3000 && set DEBUG=lighthouse-back:server && set IS_UPDATE=true && supervisor ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

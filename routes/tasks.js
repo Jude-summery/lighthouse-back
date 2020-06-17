@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* 获取用户基本信息 */
-router.get('/info', function(req, res, next) {
-  res.send('users info');
+/* 获取所有任务 */
+router.get('/tasks', function(req, res, next) {
+  
 });
 
 module.exports = router;
