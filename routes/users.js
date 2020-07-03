@@ -2,25 +2,25 @@ const express = require('express');
 const router = express.Router();
 
 const UserModel = require('../models/users');
-const gerResponse = require('../util/getResponse');
+const getResponse = require('../util/getResponse');
 
 /** 用户注册 */
 router.post('/signup', function (req, res, next) {
   UserModel.create().then(() => {
-    res.send(gerResponse('创建成功'));
+    res.send(getResponse('创建成功'));
   }).catch(e => next(e))
 });
 
 /** 获取用户基本信息 */
 router.get('/info/:id', function (req, res, next) {
   const { id } = req.params;
-  if (isNaN(id)) { res.send(gerResponse(null, 403, false, '参数有误')); return };
+  if (isNaN(id)) { res.send(getResponse(null, 403, false, '参数有误')); return };
   UserModel.findOneById(id).then(body => {
     if (body) {
-      res.send(gerResponse(body));
+      res.send(getResponse(body));
       return;
     };
-    res.send(gerResponse(null, 404, false, '数据不存在'));
+    res.send(getResponse(null, 404, false, '数据不存在'));
   }).catch(e => next(e))
 });
 
@@ -29,10 +29,10 @@ router.put('/info/:id', function (req, res, next) {
   const { id } = req.params;
   UserModel.updateOneById(id, req.body).then(body => {
     if (body) {
-      res.send(gerResponse());
+      res.send(getResponse());
       return;
     };
-    res.send(gerResponse(null, 404, false, '数据更新失败'));
+    res.send(getResponse(null, 404, false, '数据更新失败'));
   }).catch(e => next(e))
 });
 
@@ -41,10 +41,10 @@ router.get('/groups/:groupId', function (req, res, next) {
   const { groupId } = req.params;
   UserModel.findAllByGroupId(groupId).then(body => {
     if (body) {
-      res.send(gerResponse({ results: body }));
+      res.send(getResponse({ results: body }));
       return;
     };
-    res.send(gerResponse(null, 404, false, '数据不存在'));
+    res.send(getResponse(null, 404, false, '数据不存在'));
   }).catch(e => next(e))
 });
 
@@ -54,10 +54,10 @@ router.put('/groups/:groupId', function (req, res, next) {
   const { userId } = req.body;
   UserModel.updateOneById(userId, { groupId }).then(body => {
     if (body) {
-      res.send(gerResponse());
+      res.send(getResponse());
       return;
     };
-    res.send(gerResponse(null, 404, false, '数据更新失败'));
+    res.send(getResponse(null, 404, false, '数据更新失败'));
   }).catch(e => next(e))
 })
 
@@ -67,10 +67,10 @@ router.delete('/groups/:groupId', function (req, res, next) {
   const { userId } = req.query;
   UserModel.deleteOneGroupMemeberById(userId, groupId).then(body => {
     if (body) {
-      res.send(gerResponse());
+      res.send(getResponse());
       return;
     };
-    res.send(gerResponse(null, 404, false, '删除成员失败'));
+    res.send(getResponse(null, 404, false, '删除成员失败'));
   })
 })
 

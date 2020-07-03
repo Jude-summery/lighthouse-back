@@ -1,9 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* 获取所有任务 */
-router.get('/tasks', function(req, res, next) {
-  
+const TaskModel = require('../models/tasks');
+const getResponse = require('../util/getResponse');
+
+/** 获取所有任务 */
+router.get('/', function(req, res, next) {
+    TaskModel.findAll().then(body => {
+        if(body) {
+            res.send(getResponse(body));
+            return;
+        };
+        res.send(getResponse(null, 404, false, '数据不存在'))
+    }).catch(e => next(e))
+});
+
+/** 创建任务  */
+router.post('/', function(req, res, next) {
+    const { body } = req;
+    TaskModel.create(body).then(() => {
+        res.send(getResponse('创建成功'));
+    }).catch(e => next(e))
 });
 
 module.exports = router;
