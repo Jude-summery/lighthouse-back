@@ -23,4 +23,28 @@ router.post('/', function(req, res, next) {
     }).catch(e => next(e))
 });
 
+/** 修改任务 */
+router.put('/:id', function(req, res, next) {
+    const { id } = req.params;
+    TaskModel.updateOneById(id, req.body).then(body => {
+        if(body) {
+            res.send(getResponse());
+            return;
+        };
+        res.send(getResponse(null, 404, false, '数据更新失败'));
+    }).catch(e => next(e))
+});
+
+/** 删除任务 */
+router.delete('/:id', function(req, res, next) {
+    const { id } = req.params;
+    TaskModel.deleteOneById(id).then(body => {
+        if(body) {
+            res.send(getResponse());
+            return;
+        };
+        res.send(getResponse(null, 404, false, '删除任务失败'));
+    })
+})
+
 module.exports = router;
